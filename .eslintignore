@@ -1,0 +1,4 @@
+/.expo
+node_modules
+svg-convert-config.js
+**/assets/icon/dist/**
