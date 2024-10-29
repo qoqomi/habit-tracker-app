@@ -1,6 +1,7 @@
 {
   "name": "habit-tracker-app",
   "main": "expo-router/entry",
+  "scheme":"habit-tracker",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
