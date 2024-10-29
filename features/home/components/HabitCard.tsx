@@ -1,4 +1,5 @@
 import { ThemeColor } from "@/assets/colors";
+import { Checkbox } from "@/components/checkbox/Checkbox";
 import { Typography } from "@/components/typography/Typography";
 import styled from "@emotion/native";
 import { useState } from "react";
@@ -21,8 +22,9 @@ export const HabitCard = ({
     onPressButton?.(isChecked);
   };
   return (
-    <Container>
-      <CheckButton onPress={handlePressButton} />
+    <Container isChecked={isChecked}>
+      <Checkbox isChecked={isChecked} onPress={handlePressButton} />
+
       <RightComponent>
         <Typography variant="default">{label}</Typography>
         <Typography variant="caption" color={ThemeColor.Gray4}>
@@ -33,22 +35,23 @@ export const HabitCard = ({
   );
 };
 
-const Container = styled.View`
-  background-color: ${ThemeColor.Gray1};
-  padding: 12px 16px;
-  border-radius: 16px;
+const Container = styled.View<{ isChecked: boolean }>`
+  position: relative;
+
   flex-direction: row;
   align-items: center;
+
+  padding: 12px 16px;
   gap: 8px;
+
+  background-color: ${({ isChecked }) =>
+    isChecked ? ThemeColor.Gray2 : ThemeColor.Gray1};
+
+  border-radius: 16px;
+
   border: 2px dotted ${ThemeColor.Gray3};
 `;
 
-const RightComponent = styled.View``;
-
-const CheckButton = styled.Pressable`
-  width: 24px;
-  height: 24px;
-  border-radius: 14px;
-  border: 1px solid ${ThemeColor.BlackOp90};
-  background: ${ThemeColor.Yellow};
+const RightComponent = styled.View`
+  padding-left: 34px;
 `;
