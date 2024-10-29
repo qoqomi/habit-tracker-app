@@ -17,15 +17,14 @@ export const _Textfield: ForwardRefRenderFunction<TextInput, TextfieldProps> = (
 };
 
 export const TextField = forwardRef(_Textfield);
+
 const Container = styled.View`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  flex-grow: 0;
-  padding: 4px 0px;
-  gap: 16px;
 `;
-const StyledInput = styled.TextInput`
+
+const StyledInput = styled(TextInput)`
   flex: 1;
 `;
