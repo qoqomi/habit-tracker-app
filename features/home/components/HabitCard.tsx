@@ -7,12 +7,14 @@ import { useState } from "react";
 interface HabitCardProps {
   label: string;
   checkValue: boolean;
+  onPressCard: () => void;
   onPressButton?: (check: boolean) => void;
 }
 
 export const HabitCard = ({
   label,
   checkValue,
+  onPressCard,
   onPressButton,
 }: HabitCardProps) => {
   const [isChecked, setIsChecked] = useState(checkValue ?? false);
@@ -22,7 +24,7 @@ export const HabitCard = ({
     onPressButton?.(isChecked);
   };
   return (
-    <Container isChecked={isChecked}>
+    <Container isChecked={isChecked} onPress={onPressCard}>
       <Checkbox isChecked={isChecked} onPress={handlePressButton} />
 
       <RightComponent>
@@ -35,7 +37,7 @@ export const HabitCard = ({
   );
 };
 
-const Container = styled.View<{ isChecked: boolean }>`
+const Container = styled.Pressable<{ isChecked: boolean }>`
   position: relative;
 
   flex-direction: row;
