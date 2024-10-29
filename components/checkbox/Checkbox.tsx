@@ -1,4 +1,4 @@
-import { ThemeColor } from "@/assets/colors";
+import { ThemeColor } from "@/constants/colors";
 import styled from "@emotion/native";
 
 interface CheckButtonProps {

@@ -1,6 +1,6 @@
-import { ThemeColor } from "@/assets/colors";
 import { Checkbox } from "@/components/checkbox/Checkbox";
 import { Typography } from "@/components/typography/Typography";
+import { ThemeColor } from "@/constants/colors";
 import styled from "@emotion/native";
 import { useState } from "react";
 
