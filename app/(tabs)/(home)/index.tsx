@@ -1,12 +1,16 @@
+import { SCREEN } from "@/constants/screen";
 import { HabitCard } from "@/features/home/components/HabitCard";
 import styled from "@emotion/native";
+import { router } from "expo-router";
 import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const data = Array.from({ length: 100 }, (v, i) => i);
 
 export default function HomeScreen() {
-  const handlePressUserHabit = () => {};
+  const handlePressUserHabit = () => {
+    router.push(`${SCREEN.habit}/1`);
+  };
 
   const renderCard = ({ item }) => {
     return (
