@@ -1,9 +1,10 @@
 export type TypographyVariant =
   | "default"
+  | "body1"
   | "title"
   | "defaultSemiBold"
   | "subtitle"
-  | "link";
+  | "caption";
 
 export type FontSizeType = 32 | 20 | 16;
 export type FontWeight = "bold" | "600" | "500";
@@ -13,12 +14,17 @@ export const TypographyStyle = {
   default: {
     fontSize: 16,
     lineHeight: 24,
-    fontWeight: "600",
+    fontWeight: "500",
   },
   defaultSemiBold: {
     fontSize: 16,
     lineHeight: 24,
     fontWeight: "600",
+  },
+  body1: {
+    fontSize: 22,
+    lineHeight: 24,
+    fontWeight: "500",
   },
   title: {
     fontSize: 32,
@@ -30,9 +36,9 @@ export const TypographyStyle = {
     lineHeight: 24,
     fontWeight: "500",
   },
-  link: {
-    fontSize: 16,
-    lineHeight: 30,
+  caption: {
+    fontSize: 12,
+    lineHeight: 14,
     fontWeight: "500",
   },
 };
