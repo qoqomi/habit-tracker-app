@@ -7,8 +7,7 @@ export const useHabit = () => {
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEY],
     queryFn: () => habitApis.getHabit(),
-    select: (response) => response,
+    select: (response) => response.data,
   });
-  console.log("dataa", data);
-  return { data };
+  return { data, isLoading };
 };
