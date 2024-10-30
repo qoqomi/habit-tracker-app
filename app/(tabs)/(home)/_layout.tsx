@@ -7,6 +7,6 @@ export default function Layout() {
       screenOptions={{
         headerShown: false,
       }}
-    ></Stack>
+    />
   );
 }
