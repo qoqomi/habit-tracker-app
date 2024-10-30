@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { habitApis } from "../apis";
 import { GetHabitResponse } from "../apis/getHabit";
 
-const QUERY_KEY = "GET_HABIT";
+export const QUERY_KEY = ["GET_HABIT"];
 
 const updateHabitStatusInQuery = (
   oldData: GetHabitResponse,
@@ -29,16 +29,16 @@ const updateHabitStatusInQuery = (
 export const useHabit = () => {
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
-    queryKey: [QUERY_KEY],
+    queryKey: QUERY_KEY,
     queryFn: () => habitApis.getHabit(),
     select: (response) => response.data,
   });
 
   const updateCheck = (habitId: number, isCheckend: boolean) => {
-    queryClient.setQueryData([QUERY_KEY], (oldData: GetHabitResponse) =>
+    queryClient.setQueryData(QUERY_KEY, (oldData: GetHabitResponse) =>
       updateHabitStatusInQuery(oldData, habitId, isCheckend)
     );
   };
 
-  return { data, isLoading, updateCheck };
+  return { habits: data, isLoading, updateCheck };
 };

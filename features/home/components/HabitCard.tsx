@@ -7,25 +7,25 @@ import { GetHabit } from "../apis/getHabit";
 import { convertedCustomFrequency } from "../utils/convertedFrequency";
 
 interface HabitCardProps {
-  item: GetHabit;
-  onPressCard: () => void;
+  habit: GetHabit;
+  onPressCard: (habit: GetHabit) => void;
   onPressCheck?: (id: number, isChecked: boolean) => void;
 }
 
 export const HabitCard = ({
-  item,
+  habit,
   onPressCard,
   onPressCheck,
 }: HabitCardProps) => {
-  const [isChecked, setIsChecked] = useState(item.completed ?? false);
+  const [isChecked, setIsChecked] = useState(habit.completed ?? false);
 
-  const { id, title, frequency, dayOfWeek } = item;
+  const { id, title, frequency, dayOfWeek } = habit;
   const handlePressButton = () => {
     setIsChecked((prev) => !prev);
     onPressCheck?.(id, isChecked);
   };
   return (
-    <Container isChecked={isChecked} onPress={onPressCard}>
+    <Container isChecked={isChecked} onPress={() => onPressCard(habit)}>
       <Checkbox isChecked={isChecked} onPress={handlePressButton} />
 
       <RightComponent>
