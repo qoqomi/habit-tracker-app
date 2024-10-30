@@ -5,6 +5,7 @@ import "react-native-reanimated";
 
 import { MainStackNavigation } from "@/components/navigation/MainStackNavigation";
 import { DefaultBottomSheetProvider } from "@/context/bottom-sheet/DefaultBottomSheetProvider";
+import { WheelPickerBottomSheetProvider } from "@/context/bottom-sheet/WheelPickerBottomSheetProvider";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -31,9 +32,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
-          <DefaultBottomSheetProvider>
-            <MainStackNavigation />
-          </DefaultBottomSheetProvider>
+          <WheelPickerBottomSheetProvider>
+            <DefaultBottomSheetProvider>
+              <MainStackNavigation />
+            </DefaultBottomSheetProvider>
+          </WheelPickerBottomSheetProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
