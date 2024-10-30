@@ -1,50 +1,16 @@
-# Welcome to your Expo app 👋
+## HABIT TRACKER APP 
+### 요구사항
+- 새로운 습관 추가: 사용자들이 습관 이름과 빈도(예: 매일, 매주, 맞춤 날짜)를 지정할 수 있습니다.
+- 진행 상황 추적: 진행 상황 막대 또는 체크리스트를 표시해 사용자가 해당 습관을 하루/주 단위로 완료했는지 체크할 수 있습니다.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+### 핵심 기능
+- 오늘의 모든 습관을 보여주는 홈 화면을 제공합니다.
+- 사용자가 습관을 완료했을 때 탭하여 "완료" 상태로 표시할 수 있습니다.
+- 습관 이름과 빈도를 입력하는 화면을 제공하여 새로운 습관을 추가할 수 있습니다.
+- 기존의 습관을 수정할 수 있도록 합니다.
 
-## Get started
 
-1. Install dependencies
+### 기술 스텍 
+- Expo: React Native 기반의 개발 환경으로, 앱을 빠르게 개발하고 배포할 수 있도록 지원합니다.
+- React Query: 서버 상태 관리 라이브러리로, 데이터 페칭, 캐싱, 동기화 및 서버 상태 업데이트를 간편하게 관리합니다.
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
