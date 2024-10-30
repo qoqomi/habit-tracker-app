@@ -1,4 +1,7 @@
+import { Typography } from "@/components/typography/Typography";
+import { ThemeColor } from "@/constants/colors";
 import { SCREEN } from "@/constants/screen";
+import { useDefaultBottomSheet } from "@/context/bottom-sheet/DefaultBottomSheetProvider";
 import { HabitCard } from "@/features/home/components/HabitCard";
 import styled from "@emotion/native";
 import { router } from "expo-router";
@@ -8,10 +11,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const data = Array.from({ length: 100 }, (v, i) => i);
 
 export default function HomeScreen() {
+  const defaultBottomSheet = useDefaultBottomSheet();
+  const handlePress = () => {
+    defaultBottomSheet.open({
+      title: "",
+    });
+  };
   const handlePressUserHabit = () => {
     router.push(`${SCREEN.habit}/1`);
   };
-
   const renderCard = ({ item }) => {
     return (
       <HabitCard
@@ -23,18 +31,45 @@ export default function HomeScreen() {
   };
 
   return (
-    <Container>
-      <SafeAreaView edges={["top"]} />
-      <FlatList
-        data={data}
-        renderItem={renderCard}
-        contentContainerStyle={{ gap: 8 }}
-      />
-    </Container>
+    <>
+      <Container>
+        <SafeAreaView edges={["top"]} />
+
+        <FlatList
+          data={data}
+          renderItem={renderCard}
+          contentContainerStyle={{ gap: 8 }}
+        />
+      </Container>
+      <Footer>
+        <Button activeOpacity={0.8} onPress={handlePress}>
+          <Typography variant="body1">빠른 등록</Typography>
+        </Button>
+      </Footer>
+    </>
   );
 }
 
 const Container = styled.View`
   padding: 8px 16px;
   flex: 1;
+`;
+const Footer = styled.View`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0px 16px 16px;
+`;
+
+const Button = styled.TouchableOpacity`
+  width: 100%;
+  height: 44px;
+  background-color: ${ThemeColor.Yellow};
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
 `;
