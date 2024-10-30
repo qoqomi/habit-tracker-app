@@ -3,22 +3,23 @@ import { Typography } from "@/components/typography/Typography";
 import { ThemeColor } from "@/constants/colors";
 import styled from "@emotion/native";
 import { useState } from "react";
+import { GetHabitResponse } from "../apis/getHabit";
+import { convertedCustomFrequency } from "../utils/convertedFrequency";
 
 interface HabitCardProps {
-  label: string;
-  checkValue: boolean;
+  item: GetHabitResponse;
   onPressCard: () => void;
   onPressButton?: (check: boolean) => void;
 }
 
 export const HabitCard = ({
-  label,
-  checkValue,
+  item,
   onPressCard,
   onPressButton,
 }: HabitCardProps) => {
-  const [isChecked, setIsChecked] = useState(checkValue ?? false);
+  const [isChecked, setIsChecked] = useState(item.completed ?? false);
 
+  const { title, frequency, dayOfWeek } = item;
   const handlePressButton = () => {
     setIsChecked((prev) => !prev);
     onPressButton?.(isChecked);
@@ -28,9 +29,9 @@ export const HabitCard = ({
       <Checkbox isChecked={isChecked} onPress={handlePressButton} />
 
       <RightComponent>
-        <Typography variant="default">{label}</Typography>
+        <Typography variant="default">{title}</Typography>
         <Typography variant="caption" color={ThemeColor.Gray4}>
-          15분
+          {convertedCustomFrequency(frequency, dayOfWeek)}
         </Typography>
       </RightComponent>
     </Container>
