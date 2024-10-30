@@ -9,11 +9,13 @@ const updateHabitStatusInQuery = (
   habitId: number,
   isCheckend: boolean
 ): GetHabitResponse => {
+  const formattedDate = formatDate(new Date());
   const updatedData = oldData.data.map((item) => {
     if (item.id === habitId) {
       return {
         ...item,
         completed: isCheckend,
+        progress: [...item.progress, { date: formattedDate }],
       };
     }
     return item;
