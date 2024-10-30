@@ -3,26 +3,26 @@ import { Typography } from "@/components/typography/Typography";
 import { ThemeColor } from "@/constants/colors";
 import styled from "@emotion/native";
 import { useState } from "react";
-import { GetHabitResponse } from "../apis/getHabit";
+import { GetHabit } from "../apis/getHabit";
 import { convertedCustomFrequency } from "../utils/convertedFrequency";
 
 interface HabitCardProps {
-  item: GetHabitResponse;
+  item: GetHabit;
   onPressCard: () => void;
-  onPressButton?: (check: boolean) => void;
+  onPressCheck?: (id: number, isChecked: boolean) => void;
 }
 
 export const HabitCard = ({
   item,
   onPressCard,
-  onPressButton,
+  onPressCheck,
 }: HabitCardProps) => {
   const [isChecked, setIsChecked] = useState(item.completed ?? false);
 
-  const { title, frequency, dayOfWeek } = item;
+  const { id, title, frequency, dayOfWeek } = item;
   const handlePressButton = () => {
     setIsChecked((prev) => !prev);
-    onPressButton?.(isChecked);
+    onPressCheck?.(id, isChecked);
   };
   return (
     <Container isChecked={isChecked} onPress={onPressCard}>

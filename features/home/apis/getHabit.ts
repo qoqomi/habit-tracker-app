@@ -20,7 +20,8 @@ export enum DayOfWeek {
 interface WeeklyProgress {
   date: string; // "2024-10-30",
 }
-export interface GetHabitResponse {
+
+export interface GetHabit {
   id: number;
   order: number;
   title: string;
@@ -28,6 +29,9 @@ export interface GetHabitResponse {
   dayOfWeek?: DayOfWeek[];
   progress: WeeklyProgress[];
   completed: boolean;
+}
+export interface GetHabitResponse {
+  data: GetHabit[];
 }
 
 export const getHabit = () => ({
