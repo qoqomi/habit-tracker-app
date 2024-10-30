@@ -1,5 +1,4 @@
-import { Typography } from "@/components/typography/Typography";
-import { ThemeColor } from "@/constants/colors";
+import { TouchableButton } from "@/components/button/TouchableButton";
 import { SCREEN } from "@/constants/screen";
 import { HabitCardContainer } from "@/features/home/components/HabitCardContainer";
 import styled from "@emotion/native";
@@ -18,9 +17,7 @@ export default function HomeScreen() {
         <HabitCardContainer />
       </Container>
       <Footer>
-        <Button activeOpacity={0.8} onPress={handleRegister}>
-          <Typography variant="body1">빠른 등록</Typography>
-        </Button>
+        <TouchableButton onPress={handleRegister} label="빠른 등록" />
       </Footer>
     </>
   );
@@ -39,13 +36,4 @@ const Footer = styled.View`
   justify-content: center;
 
   padding: 0px 16px 16px;
-`;
-
-const Button = styled.TouchableOpacity`
-  width: 100%;
-  height: 44px;
-  background-color: ${ThemeColor.Yellow};
-  border-radius: 8px;
-  align-items: center;
-  justify-content: center;
 `;
