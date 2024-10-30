@@ -1,41 +1,21 @@
 import { Typography } from "@/components/typography/Typography";
 import { ThemeColor } from "@/constants/colors";
 import { SCREEN } from "@/constants/screen";
-import { HabitCard } from "@/features/home/components/HabitCard";
+import { HabitCardContainer } from "@/features/home/components/HabitCardContainer";
 import styled from "@emotion/native";
 import { router } from "expo-router";
-import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const data = Array.from({ length: 100 }, (v, i) => i);
 
 export default function HomeScreen() {
   const handleRegister = () => {
     router.push(SCREEN.habit);
   };
 
-  const handlePressUserHabit = () => {
-    router.push(`${SCREEN.habit}`);
-  };
-  const renderCard = ({ item }) => {
-    return (
-      <HabitCard
-        label="오늘의 할일"
-        onPressCard={handlePressUserHabit}
-        checkValue={true}
-      />
-    );
-  };
-
   return (
     <>
       <Container>
         <SafeAreaView edges={["top"]} />
-        <FlatList
-          data={data}
-          renderItem={renderCard}
-          contentContainerStyle={{ gap: 8 }}
-        />
+        <HabitCardContainer />
       </Container>
       <Footer>
         <Button activeOpacity={0.8} onPress={handleRegister}>
