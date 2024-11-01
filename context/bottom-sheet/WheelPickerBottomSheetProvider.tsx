@@ -1,7 +1,5 @@
 import { FrequencyWheelPicker } from "@/components/bottom-sheet/share/FrequencyWheelPicker";
-import { Typography } from "@/components/typography/Typography";
 import { Frequency } from "@/features/home/apis/getHabit";
-import styled from "@emotion/native";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -13,7 +11,6 @@ import React, {
   PropsWithChildren,
   useCallback,
   useContext,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -25,45 +22,55 @@ interface OpenArgs {
 interface BottomSheetContextType {
   open: (props: OpenArgs) => void;
   close: () => void;
+  frequency: string;
 }
 
 const DefaultBottomSheetContext = createContext<BottomSheetContextType>({
   open: (props: OpenArgs) => {},
   close: () => {},
+  frequency: Frequency.Daily,
 });
 
 export const WheelPickerBottomSheetProvider = ({
   children,
 }: PropsWithChildren) => {
   const bottomSheetRef = useRef<BottomSheetModalMethods>(null);
-  const [selectedValue, setSelectedValue] = useState<string>("매일");
+  const [options, setOptions] = useState<OpenArgs | undefined>(undefined);
+  const [habitFrequency, setHabitFrequency] = useState("매일");
 
   const handleChangeIndex = (index: number) => {
     if (index < 0) {
     }
   };
 
-  const handlePressClose = () => {
+  const handleClose = () => {
     bottomSheetRef.current?.dismiss();
   };
 
+  const handleSubmit = (value: string) => {
+    console.log("????", value);
+    setHabitFrequency(value);
+    bottomSheetRef.current?.dismiss();
+  };
   const renderBackdrop = useCallback(
     (props: any) => <BottomSheetBackdrop {...props} pressBehavior="close" />,
     []
   );
 
-  const value = useMemo(
-    () => ({
-      open: (props: OpenArgs) => {
-        setSelectedValue(props.selectedFrequency ?? Frequency.Daily);
-        bottomSheetRef.current?.present();
-      },
-      close: () => {
-        bottomSheetRef.current?.dismiss();
-      },
-    }),
-    []
-  );
+  const open = useCallback((props: OpenArgs) => {
+    setOptions({ selectedFrequency: props.selectedFrequency });
+    bottomSheetRef.current?.present();
+  }, []);
+
+  const close = useCallback(() => {
+    bottomSheetRef.current?.dismiss();
+  }, []);
+
+  const value = {
+    open,
+    close,
+    frequency: habitFrequency,
+  };
 
   return (
     <DefaultBottomSheetContext.Provider value={value}>
@@ -76,16 +83,10 @@ export const WheelPickerBottomSheetProvider = ({
         backdropComponent={renderBackdrop}
       >
         <BottomSheetView style={{ flex: 1 }}>
-          <TopNavigation>
-            <SideButton onPress={handlePressClose}>
-              <Typography variant="default">닫기</Typography>
-            </SideButton>
-            <Typography variant="default">완료</Typography>
-          </TopNavigation>
-
           <FrequencyWheelPicker
-            selectedValue={selectedValue}
-            onChange={setSelectedValue}
+            selectedValue={options?.selectedFrequency ?? ""}
+            onClose={handleClose}
+            onSubmit={handleSubmit}
           />
         </BottomSheetView>
       </BottomSheetModal>
@@ -95,16 +96,3 @@ export const WheelPickerBottomSheetProvider = ({
 
 export const useWheelPickerBottomSheet = () =>
   useContext(DefaultBottomSheetContext);
-
-const TopNavigation = styled.View`
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  padding: 0 16px;
-  z-index: 1;
-`;
-
-const SideButton = styled.Pressable`
-  border: 1px solid green;
-  width: 44px;
-`;
