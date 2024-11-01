@@ -1,14 +1,15 @@
-import { GetHabitResponse } from "./getHabit";
+import { GetHabit } from "./getHabit";
 
-export const MOCK_HABIT_LIST: GetHabitResponse[] = [
+export const MOCK_HABIT_LIST: GetHabit[] = [
   {
     id: 1,
     order: 1,
     title: "미라클모닝",
     frequency: "매일", // "daily" -> "매일"
     dayOfWeek: [],
-    progress: [{ date: "2024-10-28" }, { date: "2024-10-29" }],
+    progress: [],
     completed: true,
+    progress: [],
   },
   {
     id: 2,
@@ -17,7 +18,7 @@ export const MOCK_HABIT_LIST: GetHabitResponse[] = [
     frequency: "주중", // "weekdays" -> "주중"
     dayOfWeek: ["화", "금", "토"], // ["Tue", "Fri", "Sat"] -> ["화", "금", "토"]
     progress: [
-      { date: "2024-10-28" },
+      { date: "2024-10-28" }, // 2023-05-02 11:54:25
       { date: "2024-10-30" },
       { date: "2024-11-01" },
     ],
