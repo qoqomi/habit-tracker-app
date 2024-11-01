@@ -3,29 +3,42 @@ import { Typography } from "@/components/typography/Typography";
 import { ThemeColor } from "@/constants/colors";
 import { useWheelPickerBottomSheet } from "@/context/bottom-sheet/WheelPickerBottomSheetProvider";
 import { InputHeader } from "@/features/habit/components/InputHeader";
+import { DayOfWeek, Frequency } from "@/features/home/apis/getHabit";
 import { useSingleHabit } from "@/features/hooks/useSingleHabit";
 import styled from "@emotion/native";
 import { useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 import { Keyboard } from "react-native";
 
 export default function Page() {
-  const { habitId, title, frequency } = useLocalSearchParams<{
+  const { habitId, title, frequency, dayOfWeek } = useLocalSearchParams<{
     habitId: string;
     title: string;
-    frequency: string;
+    frequency: Frequency;
+    dayOfWeek: DayOfWeek[];
   }>();
 
   const { createHabit } = useSingleHabit(habitId as string);
 
-  const bottomsheet = useWheelPickerBottomSheet();
+  const [selectedFrequency, setSelectedFrequency] = useState(
+    frequency ?? "매일"
+  );
+  const { frequency: bottomsheetFrequency, open: bottomSheetOpen } =
+    useWheelPickerBottomSheet();
 
   const handlePressRepeatDay = () => {
     Keyboard.dismiss();
-    bottomsheet.open({ selectedFrequency: "매일" });
+    bottomSheetOpen({
+      selectedFrequency: selectedFrequency || "매일",
+    });
   };
 
   const handleRegister = () => {
-    createHabit({ title, frequency });
+    createHabit({
+      title,
+      frequency: selectedFrequency as Frequency,
+      dayOfWeek,
+    });
   };
 
   return (
@@ -34,7 +47,7 @@ export default function Page() {
       <RepeatDayWrapper onPress={handlePressRepeatDay}>
         <Typography variant="body1">반복 요일</Typography>
         <Typography variant="body1" color={ThemeColor.BlackOp40}>
-          주중
+          {bottomsheetFrequency ?? "매일"}
         </Typography>
       </RepeatDayWrapper>
       <TouchableButton onPress={handleRegister} label="빠른 등록" />
