@@ -1,4 +1,4 @@
-import { TouchableButton } from "@/components/button/TouchableButton";
+import { CustomButton } from "@/components/button/TouchableButton";
 import { Typography } from "@/components/typography/Typography";
 import { ThemeColor } from "@/constants/colors";
 import { useWheelPickerBottomSheet } from "@/context/bottom-sheet/WheelPickerBottomSheetProvider";
@@ -6,51 +6,80 @@ import { InputHeader } from "@/features/habit/components/InputHeader";
 import { DayOfWeek, Frequency } from "@/features/home/apis/getHabit";
 import { useSingleHabit } from "@/features/hooks/useSingleHabit";
 import styled from "@emotion/native";
-import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import { useMemo, useState } from "react";
 import { Keyboard } from "react-native";
 
 export default function Page() {
-  const { habitId, title, frequency, dayOfWeek } = useLocalSearchParams<{
-    habitId: string;
+  const {
+    id: habitId,
+    title: titleParams,
+    frequency: frequencyParams,
+    dayOfWeek,
+  } = useLocalSearchParams<{
+    id: string;
     title: string;
     frequency: Frequency;
     dayOfWeek: DayOfWeek[];
   }>();
 
-  const { createHabit } = useSingleHabit(habitId as string);
+  const { createHabit, modifyHabit } = useSingleHabit(habitId as string);
 
-  const [selectedFrequency, setSelectedFrequency] = useState(
-    frequency ?? "매일"
-  );
+  const [title, setTitle] = useState(titleParams ?? "");
+
   const { frequency: bottomsheetFrequency, open: bottomSheetOpen } =
     useWheelPickerBottomSheet();
 
+  const disabled = useMemo(() => {
+    const isTitleEmpty = title.length === 0;
+    const isFrequencyUnchanged = frequencyParams === bottomsheetFrequency;
+    const isTitleUnchanged = title === titleParams;
+
+    return isTitleEmpty || (isFrequencyUnchanged && isTitleUnchanged);
+  }, [title, titleParams, frequencyParams, bottomsheetFrequency]);
+
+  const handleChangeTitleValue = (text: string) => {
+    setTitle(text);
+  };
+
   const handlePressRepeatDay = () => {
     Keyboard.dismiss();
-    bottomSheetOpen({
-      selectedFrequency: selectedFrequency || "매일",
-    });
+    bottomSheetOpen({ selectedFrequency: frequencyParams });
   };
 
   const handleRegister = () => {
-    createHabit({
-      title,
-      frequency: selectedFrequency as Frequency,
-      dayOfWeek,
-    });
+    if (habitId) {
+      modifyHabit({
+        habitId,
+        title,
+        frequency: bottomsheetFrequency as Frequency,
+        dayOfWeek: dayOfWeek,
+      });
+    } else {
+      createHabit({
+        title,
+        frequency: bottomsheetFrequency as Frequency,
+        dayOfWeek: dayOfWeek,
+      });
+    }
+
+    router.back();
   };
 
   return (
     <Container>
-      <InputHeader />
+      <InputHeader defaultValue={title} onChange={handleChangeTitleValue} />
       <RepeatDayWrapper onPress={handlePressRepeatDay}>
         <Typography variant="body1">반복 요일</Typography>
         <Typography variant="body1" color={ThemeColor.BlackOp40}>
           {bottomsheetFrequency ?? "매일"}
         </Typography>
       </RepeatDayWrapper>
-      <TouchableButton onPress={handleRegister} label="빠른 등록" />
+      <CustomButton
+        onPress={handleRegister}
+        label={habitId ? "수정" : "빠른 등록"}
+        disabled={disabled}
+      />
     </Container>
   );
 }

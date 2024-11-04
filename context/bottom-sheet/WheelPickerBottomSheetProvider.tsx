@@ -1,16 +1,17 @@
 import { FrequencyWheelPicker } from "@/components/bottom-sheet/share/FrequencyWheelPicker";
-import { Frequency } from "@/features/home/apis/getHabit";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { useGlobalSearchParams } from "expo-router";
 import React, {
   createContext,
   PropsWithChildren,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -22,21 +23,24 @@ interface OpenArgs {
 interface BottomSheetContextType {
   open: (props: OpenArgs) => void;
   close: () => void;
-  frequency: string;
+  frequency?: string;
 }
 
 const DefaultBottomSheetContext = createContext<BottomSheetContextType>({
   open: (props: OpenArgs) => {},
   close: () => {},
-  frequency: Frequency.Daily,
+  frequency: undefined,
 });
 
 export const WheelPickerBottomSheetProvider = ({
   children,
 }: PropsWithChildren) => {
+  const { frequency } = useGlobalSearchParams<{ frequency: string }>();
+
   const bottomSheetRef = useRef<BottomSheetModalMethods>(null);
-  const [options, setOptions] = useState<OpenArgs | undefined>(undefined);
-  const [habitFrequency, setHabitFrequency] = useState("매일");
+  const [habitFrequency, setHabitFrequency] = useState<string | undefined>(
+    undefined
+  );
 
   const handleChangeIndex = (index: number) => {
     if (index < 0) {
@@ -48,23 +52,27 @@ export const WheelPickerBottomSheetProvider = ({
   };
 
   const handleSubmit = (value: string) => {
-    console.log("????", value);
     setHabitFrequency(value);
     bottomSheetRef.current?.dismiss();
   };
+
   const renderBackdrop = useCallback(
     (props: any) => <BottomSheetBackdrop {...props} pressBehavior="close" />,
     []
   );
 
   const open = useCallback((props: OpenArgs) => {
-    setOptions({ selectedFrequency: props.selectedFrequency });
+    setHabitFrequency(props.selectedFrequency);
     bottomSheetRef.current?.present();
   }, []);
 
   const close = useCallback(() => {
     bottomSheetRef.current?.dismiss();
   }, []);
+
+  useEffect(() => {
+    setHabitFrequency(frequency ?? undefined);
+  }, [frequency]);
 
   const value = {
     open,
@@ -84,7 +92,7 @@ export const WheelPickerBottomSheetProvider = ({
       >
         <BottomSheetView style={{ flex: 1 }}>
           <FrequencyWheelPicker
-            selectedValue={options?.selectedFrequency ?? ""}
+            selectedValue={habitFrequency}
             onClose={handleClose}
             onSubmit={handleSubmit}
           />

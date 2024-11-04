@@ -12,7 +12,7 @@ const FREQUENCY = [
 ];
 
 interface FrequencyWheelPickerProps {
-  selectedValue: string;
+  selectedValue?: string;
   onClose: () => void;
   onSubmit: (value: string) => void;
 }

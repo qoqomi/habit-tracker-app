@@ -1,4 +1,4 @@
-import { TouchableButton } from "@/components/button/TouchableButton";
+import { CustomButton } from "@/components/button/TouchableButton";
 import { SCREEN } from "@/constants/screen";
 import { HabitCardContainer } from "@/features/home/components/HabitCardContainer";
 import styled from "@emotion/native";
@@ -17,7 +17,7 @@ export default function HomeScreen() {
         <HabitCardContainer />
       </Container>
       <Footer>
-        <TouchableButton onPress={handleRegister} label="빠른 등록" />
+        <CustomButton onPress={handleRegister} label="빠른 등록" />
       </Footer>
     </>
   );

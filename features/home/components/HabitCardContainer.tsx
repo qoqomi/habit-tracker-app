@@ -20,9 +20,9 @@ export const HabitCardContainer = () => {
       return;
     }
     router.push({
-      pathname: SCREEN.habit,
+      pathname: `${SCREEN.habit}/[id]`,
       params: {
-        hangitId: habit.id,
+        id: habit.id,
         title: habit.title,
         frequency: habit.frequency,
       },

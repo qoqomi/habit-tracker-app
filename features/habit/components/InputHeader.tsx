@@ -4,9 +4,15 @@ import styled from "@emotion/native";
 import React, { useEffect, useRef } from "react";
 import { TextInput } from "react-native";
 
-export const InputHeader = () => {
+interface InputHeaderProps {
+  defaultValue: string;
+  onChange?: (text: string) => void;
+}
+export const InputHeader = ({ defaultValue, onChange }: InputHeaderProps) => {
   const inputRef = useRef<TextInput>(null);
-  const handleChangeText = (text: string) => {};
+  const handleChangeText = (text: string) => {
+    onChange?.(text);
+  };
 
   useEffect(() => {
     if (inputRef.current) {
@@ -16,7 +22,7 @@ export const InputHeader = () => {
   return (
     <Header>
       <TextField
-        defaultValue=""
+        defaultValue={defaultValue}
         placeholder="예)아침 루틴"
         ref={inputRef}
         multiline

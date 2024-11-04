@@ -7,6 +7,12 @@ interface CreatedHabitArgs {
   frequency: Frequency;
   dayOfWeek: DayOfWeek[];
 }
+interface ModifyHabitArgs {
+  habitId: string;
+  title: string;
+  frequency: Frequency;
+  dayOfWeek: DayOfWeek[];
+}
 
 const createHabitStatusInQuery = (
   oldData: GetHabitResponse,
@@ -30,6 +36,31 @@ const createHabitStatusInQuery = (
   };
 };
 
+const modifyHabitStatusInQuery = (
+  habitId: string,
+  oldData: GetHabitResponse,
+  title: string,
+  frequency: Frequency,
+  dayOfWeek: DayOfWeek[]
+) => {
+  const newData = {
+    ...oldData,
+    data: oldData.data.map((item) => {
+      if (item.id === Number(habitId)) {
+        return {
+          ...item,
+          title,
+          frequency,
+          dayOfWeek,
+        };
+      }
+      return item;
+    }),
+  };
+
+  return newData;
+};
+
 export const useSingleHabit = (habitId: string) => {
   const queryClient = useQueryClient();
 
@@ -39,7 +70,18 @@ export const useSingleHabit = (habitId: string) => {
     );
   };
 
+  const modifyHabit = ({
+    habitId,
+    title,
+    frequency,
+    dayOfWeek,
+  }: ModifyHabitArgs) => {
+    queryClient.setQueryData(QUERY_KEY, (oldData: GetHabitResponse) =>
+      modifyHabitStatusInQuery(habitId, oldData, title, frequency, dayOfWeek)
+    );
+  };
   return {
     createHabit,
+    modifyHabit,
   };
 };
